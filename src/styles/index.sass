@@ -1,0 +1,42 @@
+@use 'variables' as *
+@use 'mixins' as *
+
+*
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+
+.app-container
+  display: flex
+  flex-direction: column
+  min-height: 100vh
+
+main
+  flex: 1
+  display: flex
+  flex-direction: column
+
+body
+  line-height: 1.4
+  font-family: $font-family
+  color: $text-color
+
+  // parameter for css debugging
+  // border: 2px solid red
+
+  header, footer, .content-wrapper
+    padding-left: 100px
+    padding-right: 100px
+    @include tablet-version
+      padding-left: 20px
+      padding-right: 20px
+
+  h1, h2, h3, h4, h5, h6
+    font-family: $font-family
+    font-weight: 700
+    color: $text-color
+
+  header, main, .content-wrapper
+    margin: 0 auto
+    max-width: 1440px
+    width: 100%
