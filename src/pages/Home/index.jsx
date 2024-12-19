@@ -1,5 +1,6 @@
 import Header from '../../components/Header'
-import SuccessModal from '../../components/SuccessModal'
+// import SuccessModal from '../../components/SuccessModal'
+import SuccessModal from 'react-success-modal'
 import { useState } from 'react'
 
 function Home() {
