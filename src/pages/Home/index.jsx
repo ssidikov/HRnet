@@ -15,6 +15,7 @@ function Home() {
   const closeModal = () => {
     setIsModalVisible(false) // Hide the modal
   }
+
   return (
     <div>
       <Header title='HRnet' />
@@ -33,11 +34,9 @@ function Home() {
         </form>
 
         <SuccessModal
-          isVisible={isModalVisible}
-          title='Employee Added Successfully'
+          isOpen={isModalVisible}
           message='The new employee has been added to the system.'
           onClose={closeModal}
-          isOpen={isModalVisible}
         />
       </div>
     </div>
