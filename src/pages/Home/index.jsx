@@ -4,6 +4,7 @@ import SuccessModal from 'react-success-modal'
 import { useState } from 'react'
 import './Home.sass'
 import { Link } from 'react-router-dom'
+import states from '../../data/statesList'
 
 function Home() {
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -35,6 +36,11 @@ function Home() {
           <div>
             <label htmlFor='email'>Email:</label>
             <input type='email' id='email' name='email' required />
+            <select name='state' id='state' required>
+              {states.map((state) => {
+                return <option key={state.abbreviation}>{state.name}</option>
+              })}
+            </select>
           </div>
           <button type='submit'>Submit</button>
         </form>
