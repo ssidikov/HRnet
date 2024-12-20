@@ -2,6 +2,7 @@ import Header from '../../components/Header'
 // import SuccessModal from '../../components/SuccessModal'
 import SuccessModal from 'react-success-modal'
 import { useState } from 'react'
+import './Home.sass'
 
 function Home() {
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -34,11 +35,7 @@ function Home() {
           <button type='submit'>Submit</button>
         </form>
 
-        <SuccessModal
-          isOpen={isModalVisible}
-          message='The new employee has been added to the system.'
-          onClose={closeModal}
-        />
+        <SuccessModal isOpen={isModalVisible} message='Employee Created!' onClose={closeModal} />
       </div>
     </div>
   )
