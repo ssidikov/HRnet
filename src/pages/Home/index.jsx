@@ -3,6 +3,7 @@ import Header from '../../components/Header'
 import SuccessModal from 'react-success-modal'
 import { useState } from 'react'
 import './Home.sass'
+import { Link } from 'react-router-dom'
 
 function Home() {
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -21,6 +22,9 @@ function Home() {
   return (
     <div>
       <Header title='HRnet' />
+      <Link className='link' to='/employees'>
+        View Current Employees
+      </Link>
       <div>
         <h1>New Employee Form</h1>
         <form onSubmit={handleFormSubmit}>
