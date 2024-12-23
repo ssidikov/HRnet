@@ -1,20 +1,29 @@
-// variables
+// Variables
 $main-font: Arial, Helvetica, sans-serif
 $main-color: #2c3e50
 $accent-color: #3498db
 $text-light-color: #888
 $hover-color: #2980b9
-$bg-color: #ecf0f1
+$bg-color: #f0f8ff
 $error-color: #e74c3c
 $success-color: #2ecc71
 $border-radius: 8px
 $transition: 0.3s ease
 
-// mixins
-@mixin transition($property, $duration, $easing)
+// Typography
+$font-base-size: 16px
+$font-scale: 1.2
+
+// Breakpoints
+$phone: 600px
+$tablet: 900px
+$desktop: 1200px
+
+// Mixins
+@mixin transition($property, $duration, $easing: ease)
   transition: $property $duration $easing
 
-@mixin border-radius($radius)
+@mixin border-radius($radius: $border-radius)
   border-radius: $radius
 
 @mixin focus-outline($color)
@@ -22,11 +31,10 @@ $transition: 0.3s ease
     border-color: $color
     box-shadow: 0 0 5px rgba($color, 0.5)
 
-// media queries
-$phone: 600px
-$tablet: 900px
-$desktop: 1200px
+@mixin clamp($min, $pref, $max)
+  font-size: clamp($min, $pref, $max)
 
+// Media Queries
 @mixin phone-version
   @media (max-width: $phone)
     @content
@@ -36,5 +44,5 @@ $desktop: 1200px
     @content
 
 @mixin desktop-version
-  @media (max-width: $desktop)
+  @media (min-width: $desktop)
     @content

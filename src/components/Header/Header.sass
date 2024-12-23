@@ -1,31 +1,28 @@
-@import '../../styles/variables'
+@use '../../styles/variables' as *
 
 .header
   display: flex
   justify-content: space-between
   align-items: center
-  max-width: 90%
-  margin: 20px auto
-  padding: 15px 20px
-  background-color: #f0f8ff
-  @include border-radius($border-radius)
+  padding: 1rem 2rem
+  background-color: $bg-color
+  @include border-radius
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+  margin: 25px 0
+  @include phone-version
+    flex-direction: column
+    padding: 1rem
 
   &__title
-    font-size: 1.8rem
+    @include clamp(1.5rem, 2.5vw, 2rem)
     color: $main-color
-    @include phone-version
-      font-size: 1rem
 
   &__link
     text-decoration: none
     font-weight: bold
-    font-size: 1rem
+    @include clamp(1rem, 1.5vw, 1.2rem)
     color: $accent-color
-    @include transition(color, $transition, ease)
-    @include phone-version
-      font-size: 0.8rem
+    @include transition(color, $transition)
 
     &:hover
       color: $hover-color
-      text-decoration: underline

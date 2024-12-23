@@ -2,22 +2,23 @@
 
 .address
   margin: 20px 0
-  padding: 15px
+  padding: 1rem
   border: 1px solid #ccc
-  @include border-radius($border-radius)
-  background-color: #f0f8ff
+  @include border-radius
+  background-color: $bg-color
 
   &__legend
     font-weight: bold
-    font-size: 1rem
+    @include clamp(1rem, 1.5vw, 1.2rem)
     color: $main-color
 
   &__input, &__select
     width: 100%
-    padding: 10px
-    margin-top: 10px
+    padding: 0.75rem
+    margin-top: 0.5rem
     border: 1px solid #ccc
-    @include transition(border-color, $transition, ease)
+    @include border-radius
+    @include transition(border-color, $transition)
 
     &:focus
       @include focus-outline($accent-color)

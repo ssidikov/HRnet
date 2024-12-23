@@ -1,40 +1,30 @@
-@use 'variables' as *
-
+@use './variables' as *
+// Global Reset
 *
   box-sizing: border-box
   margin: 0
   padding: 0
 
-.app-container
-  display: flex
-  flex-direction: column
-  min-height: 100vh
-
-// main
-//   flex: 1
-//   display: flex
-//   flex-direction: column
-
 body
   line-height: 1.4
   font-family: $main-font
   color: $main-color
+  // background-color: $bg-color
+header, .content-wrapper
+  padding-left: 100px
+  padding-right: 100px
+  @include phone-version
+    padding-left: 20px
+    padding-right: 20px
 
-  // parameter for css debugging
-  // border: 2px solid red
+h1, h2, h3, h4, h5, h6
+  font-weight: 700
+  @include clamp(1.5rem, 2vw, 2.5rem)
+  color: $main-color
 
-  header, footer, .content-wrapper
-    padding-left: 100px
-    padding-right: 100px
-    @include phone-version
-      padding-left: 20px
-      padding-right: 20px
-
-  h1, h2, h3, h4, h5, h6
-    font-weight: 700
-    color: $main-color
-
-  header, main, .content-wrapper
-    margin: 0 auto
-    max-width: 1440px
-    width: 100%
+.container
+  margin: 0 auto
+  padding: 0 20px
+  max-width: 1440px
+  @include phone-version
+    padding: 0 10px
