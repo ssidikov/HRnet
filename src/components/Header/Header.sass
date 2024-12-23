@@ -1,0 +1,27 @@
+@import '../../styles/variables'
+
+.header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  max-width: 90%
+  margin: 20px auto
+  padding: 15px 20px
+  background-color: $bg-color
+  @include border-radius($border-radius)
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+
+  &__title
+    font-size: 1.8rem
+    color: $main-color
+
+  &__link
+    text-decoration: none
+    font-weight: bold
+    font-size: 1rem
+    color: $accent-color
+    @include transition(color, $transition, ease)
+
+    &:hover
+      color: $hover-color
+      text-decoration: underline

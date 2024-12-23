@@ -2,12 +2,25 @@ import React from 'react'
 import FormInput from '../FormInput'
 import SelectInput from '../SelectInput'
 import PropTypes from 'prop-types'
+import './AddressFieldset.sass'
 
 const AddressFieldset = ({ states, stateHandler, cityHandler, streetHandler, zipHandler }) => (
   <fieldset className='address'>
-    <legend>Address</legend>
-    <FormInput label='Street' type='text' id='street' onChange={streetHandler} />
-    <FormInput label='City' type='text' id='city' onChange={cityHandler} />
+    <legend className='address__legend'>Address</legend>
+    <FormInput
+      label='Street'
+      type='text'
+      id='street'
+      onChange={streetHandler}
+      className='address__input'
+    />
+    <FormInput
+      label='City'
+      type='text'
+      id='city'
+      onChange={cityHandler}
+      className='address__input'
+    />
     <SelectInput
       label='State'
       options={states}
@@ -15,12 +28,17 @@ const AddressFieldset = ({ states, stateHandler, cityHandler, streetHandler, zip
       id='state-required'
       onChange={stateHandler}
       requiredMessage='Please select a state'
+      className='address__select'
     />
-    <FormInput label='Zip Code' type='number' id='zip-code' onChange={zipHandler} />
+    <FormInput
+      label='Zip Code'
+      type='number'
+      id='zip-code'
+      onChange={zipHandler}
+      className='address__input'
+    />
   </fieldset>
 )
-
-export default AddressFieldset
 
 AddressFieldset.propTypes = {
   states: PropTypes.array.isRequired,
@@ -29,3 +47,5 @@ AddressFieldset.propTypes = {
   streetHandler: PropTypes.func.isRequired,
   zipHandler: PropTypes.func.isRequired,
 }
+
+export default AddressFieldset

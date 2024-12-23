@@ -1,0 +1,23 @@
+@import '../../styles/variables'
+
+.address
+  margin: 20px 0
+  padding: 15px
+  border: 1px solid #ccc
+  @include border-radius($border-radius)
+  background-color: #fff
+
+  &__legend
+    font-weight: bold
+    font-size: 1rem
+    color: $main-color
+
+  &__input, &__select
+    width: 100%
+    padding: 10px
+    margin-top: 10px
+    border: 1px solid #ccc
+    @include transition(border-color, $transition, ease)
+
+    &:focus
+      @include focus-outline($accent-color)

@@ -1,0 +1,36 @@
+@import '../../styles/variables'
+
+.select-input
+  display: flex
+  flex-direction: column
+  margin-bottom: 20px
+
+  &__label
+    font-size: 0.9rem
+    margin-bottom: 5px
+    color: $main-color
+
+  &__select
+    .select__control
+      padding: 5px
+      border: 1px solid #ccc
+      @include border-radius($border-radius)
+      @include transition(border-color, $transition, ease)
+
+      &:hover
+        border-color: $hover-color
+
+      &:focus-within
+        border-color: $accent-color
+
+    .select__placeholder
+      color: $text-light-color
+
+    .select__menu
+      @include border-radius($border-radius)
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+
+  &__required
+    font-size: 0.8rem
+    color: $error-color
+    margin-top: 5px
