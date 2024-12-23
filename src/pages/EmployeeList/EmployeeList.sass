@@ -26,6 +26,48 @@
     max-width: 90%
     margin: 20px auto
 
+    .MuiFormControl-root
+      display: flex
+      width: 300px
+      // align-items: center
+      background-color: #ffffff
+      border: 1px solid $main-color
+      @include border-radius(8px)
+      padding: 8px 12px
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+      transition: all 0.3s ease
+      @include phone-version
+        width: 100%
+
+      &:focus-within
+        border-color: $accent-color
+        box-shadow: 0 0 6px rgba($accent-color, 0.5)
+
+      input
+        flex: 1
+        border: none
+        outline: none
+        font-size: clamp(0.9rem, 2vw, 1.1rem)
+        color: $main-color
+        background: transparent
+        padding: 4px 8px
+
+      &::placeholder
+        color: $text-light-color
+        font-style: italic
+
+      button
+        border: none
+        background-color: transparent
+        cursor: pointer
+        padding: 0 8px
+        color: $main-color
+        font-size: 1.2rem
+        transition: color 0.3s ease
+
+        &:hover
+          color: $hover-color
+
     .MuiDataGrid-root
       background-color: #f0f8ff
       border-radius: 0
@@ -33,6 +75,7 @@
       .MuiDataGrid-columnHeaders
         background-color: $main-color
         color: #fff
+        border-radius: 0
 
       .MuiDataGrid-cell
         font-size: 1rem
