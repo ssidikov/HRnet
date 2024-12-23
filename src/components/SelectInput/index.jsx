@@ -15,7 +15,7 @@ const SelectInput = ({ label, options, placeholder, onChange, id, requiredMessag
       classNamePrefix='select'
     />
     <p className='select-input__required' id={id}>
-      {requiredMessage}
+      {requiredMessage || ''}
     </p>
   </div>
 )

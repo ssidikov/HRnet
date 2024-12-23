@@ -3,7 +3,14 @@ import SelectInput from '../SelectInput'
 import PropTypes from 'prop-types'
 import './AddressFieldset.sass'
 
-const AddressFieldset = ({ states, stateHandler, cityHandler, streetHandler, zipHandler }) => (
+const AddressFieldset = ({
+  states,
+  stateHandler,
+  cityHandler,
+  streetHandler,
+  zipHandler,
+  stateError, // Новый пропс для обработки ошибок
+}) => (
   <fieldset className='address'>
     <legend className='address__legend'>Address</legend>
     <FormInput
@@ -26,7 +33,7 @@ const AddressFieldset = ({ states, stateHandler, cityHandler, streetHandler, zip
       placeholder='Select a state'
       id='state-required'
       onChange={stateHandler}
-      requiredMessage='Please select a state'
+      requiredMessage={stateError} // Передаем сообщение об ошибке
       className='address__select'
     />
     <FormInput
@@ -45,6 +52,7 @@ AddressFieldset.propTypes = {
   cityHandler: PropTypes.func.isRequired,
   streetHandler: PropTypes.func.isRequired,
   zipHandler: PropTypes.func.isRequired,
+  stateError: PropTypes.string, // Пропс для сообщения об ошибке
 }
 
 export default AddressFieldset

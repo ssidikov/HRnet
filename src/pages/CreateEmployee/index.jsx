@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { stateSelected } from '../../redux/slices/states-slice'
 import { departmentSelected } from '../../redux/slices/department-slice'
 import { statesList } from '../../data/usStates'
@@ -17,31 +17,25 @@ const CreateEmployee = () => {
 
   const dispatch = useDispatch()
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    birthdate: null,
-    startdate: null,
-    street: '',
-    city: '',
-    state: null,
-    zipCode: '',
-    department: '',
-  })
-
-  const isStateSelected = useSelector((state) => state.state.selected)
-  const isDepartmentSelected = useSelector((state) => state.department.selected)
+  const [formAttemptedSubmit, setFormAttemptedSubmit] = useState(false) // Новый state
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [birthdate, setBirthdate] = useState(null)
+  const [startdate, setStartdate] = useState(null)
+  const [street, setStreet] = useState('')
+  const [city, setCity] = useState('')
+  const [state, setState] = useState(null)
+  const [zipCode, setZipCode] = useState('')
+  const [department, setDepartment] = useState('')
 
   const STATES = statesList.map((s) => ({ value: s.abbreviation, label: s.name }))
   const DEPARTMENTS = departments.map((d) => ({ value: d.name, label: d.name }))
 
-  const handleFormChange = (key, value) => {
-    setFormData((prevData) => ({ ...prevData, [key]: value }))
-  }
-
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    if (isStateSelected && isDepartmentSelected) {
+    setFormAttemptedSubmit(true) // Указываем, что форма пыталась быть отправленной
+
+    if (state && department) {
       saveEmployee()
       setIsModalVisible(true)
     }
@@ -53,7 +47,17 @@ const CreateEmployee = () => {
 
   const saveEmployee = () => {
     const employees = JSON.parse(localStorage.getItem('employees')) || []
-    employees.push(formData)
+    employees.push({
+      firstName,
+      lastName,
+      birthdate,
+      startdate,
+      street,
+      city,
+      state,
+      zipCode,
+      department,
+    })
     localStorage.setItem('employees', JSON.stringify(employees))
   }
 
@@ -68,46 +72,49 @@ const CreateEmployee = () => {
               label='First Name'
               type='text'
               id='first-name'
-              onChange={(e) => handleFormChange('firstName', e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
             />
             <FormInput
               label='Last Name'
               type='text'
               id='last-name'
-              onChange={(e) => handleFormChange('lastName', e.target.value)}
+              onChange={(e) => setLastName(e.target.value)}
             />
             <DateInput
               label='Date of Birth'
               id='date-of-birth'
-              selected={formData.birthdate}
-              onChange={(date) => handleFormChange('birthdate', date)}
+              selected={birthdate}
+              onChange={setBirthdate}
             />
             <DateInput
               label='Start Date'
               id='start-date'
-              selected={formData.startdate}
-              onChange={(date) => handleFormChange('startdate', date)}
+              selected={startdate}
+              onChange={setStartdate}
             />
             <SelectInput
               label='Department'
               options={DEPARTMENTS}
               placeholder='Select a department'
               id='department-required'
-              onChange={(option) => {
-                handleFormChange('department', option.label)
+              onChange={(selectedOption) => {
+                setDepartment(selectedOption?.label || '')
                 dispatch(departmentSelected())
               }}
-              requiredMessage='Please select a department'
+              requiredMessage={
+                formAttemptedSubmit && !department ? 'Please select a department' : ''
+              }
             />
             <AddressFieldset
               states={STATES}
-              stateHandler={(option) => {
-                handleFormChange('state', option.label)
+              stateHandler={(selectedOption) => {
+                setState(selectedOption?.label || '')
                 dispatch(stateSelected())
               }}
-              cityHandler={(e) => handleFormChange('city', e.target.value)}
-              streetHandler={(e) => handleFormChange('street', e.target.value)}
-              zipHandler={(e) => handleFormChange('zipCode', e.target.value)}
+              cityHandler={(e) => setCity(e.target.value)}
+              streetHandler={(e) => setStreet(e.target.value)}
+              zipHandler={(e) => setZipCode(e.target.value)}
+              stateError={formAttemptedSubmit && !state ? 'Please select a state' : ''} // Передаем сообщение об ошибке в компонент
             />
             <button type='submit' className='create-employee__submit'>
               Save
