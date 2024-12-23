@@ -9,7 +9,7 @@ const AddressFieldset = ({
   cityHandler,
   streetHandler,
   zipHandler,
-  stateError, // Новый пропс для обработки ошибок
+  stateError,
 }) => (
   <fieldset className='address'>
     <legend className='address__legend'>Address</legend>
@@ -33,7 +33,7 @@ const AddressFieldset = ({
       placeholder='Select a state'
       id='state-required'
       onChange={stateHandler}
-      requiredMessage={stateError} // Передаем сообщение об ошибке
+      requiredMessage={stateError}
       className='address__select'
     />
     <FormInput
@@ -52,7 +52,7 @@ AddressFieldset.propTypes = {
   cityHandler: PropTypes.func.isRequired,
   streetHandler: PropTypes.func.isRequired,
   zipHandler: PropTypes.func.isRequired,
-  stateError: PropTypes.string, // Пропс для сообщения об ошибке
+  stateError: PropTypes.string,
 }
 
 export default AddressFieldset

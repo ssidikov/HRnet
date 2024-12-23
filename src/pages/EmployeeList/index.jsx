@@ -1,26 +1,34 @@
-// import React from 'react'
-// import { Link } from 'react-router-dom'
 import { dataColumns } from '../../data/dataGridColumns'
 import moment from 'moment'
 import { DataGrid, GridToolbarQuickFilter, GridLinkOperator } from '@mui/x-data-grid'
 import { Box } from '@mui/material'
 import './EmployeeList.sass'
 import Header from '../../components/Header'
+import { statesList } from '../../data/usStates'
 
 /**
- *
+ * Formats a date to a readable string
  * @param {Date} date
- * @returns new date formatted
+ * @returns formatted date string
  */
 const formatDate = (date) => {
   return moment(date).format('L')
 }
 
 /**
- * returns an array of employees
- * @returns {Array}
+ * Maps full state names to abbreviations
+ * @param {string} stateName
+ * @returns {string} state abbreviation
  */
+const getStateAbbreviation = (stateName) => {
+  const state = statesList.find((item) => item.name === stateName)
+  return state ? state.abbreviation : stateName
+}
 
+/**
+ * Retrieves employees from local storage and maps data
+ * @returns {Array} employees with formatted data
+ */
 const getEmployees = () => {
   const storedEmployees = localStorage.getItem('employees')
   if (!storedEmployees) return []
@@ -29,12 +37,13 @@ const getEmployees = () => {
     id: index,
     startDate: formatDate(employee.startdate),
     dateOfBirth: formatDate(employee.birthdate),
+    state: getStateAbbreviation(employee.state), // Replace the name of the state for the abbreviation
   }))
 }
 
 /**
- * returns a search toolbar
- * @returns {JSX}
+ * Returns a search toolbar
+ * @returns {JSX.Element} Quick filter toolbar
  */
 const QuickSearchToolbar = () => {
   return (
@@ -52,8 +61,8 @@ const QuickSearchToolbar = () => {
 }
 
 /**
- * returns the EmployeeList page
- * @returns {JSX}
+ * EmployeeList page component
+ * @returns {JSX.Element} EmployeeList page
  */
 const EmployeeList = () => {
   document.title = 'HRnet - Current Employees'

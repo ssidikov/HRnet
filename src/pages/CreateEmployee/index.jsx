@@ -17,7 +17,7 @@ const CreateEmployee = () => {
 
   const dispatch = useDispatch()
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [formAttemptedSubmit, setFormAttemptedSubmit] = useState(false) // Новый state
+  const [formAttemptedSubmit, setFormAttemptedSubmit] = useState(false) // New State
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [birthdate, setBirthdate] = useState(null)
@@ -33,7 +33,7 @@ const CreateEmployee = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    setFormAttemptedSubmit(true) // Указываем, что форма пыталась быть отправленной
+    setFormAttemptedSubmit(true) // indicate that the form tried to be sent
 
     if (state && department) {
       saveEmployee()
@@ -114,7 +114,7 @@ const CreateEmployee = () => {
               cityHandler={(e) => setCity(e.target.value)}
               streetHandler={(e) => setStreet(e.target.value)}
               zipHandler={(e) => setZipCode(e.target.value)}
-              stateError={formAttemptedSubmit && !state ? 'Please select a state' : ''} // Передаем сообщение об ошибке в компонент
+              stateError={formAttemptedSubmit && !state ? 'Please select a state' : ''}
             />
             <button type='submit' className='create-employee__submit'>
               Save
