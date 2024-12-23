@@ -1,4 +1,3 @@
-import React from 'react'
 import FormInput from '../FormInput'
 import SelectInput from '../SelectInput'
 import PropTypes from 'prop-types'

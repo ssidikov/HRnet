@@ -17,15 +17,17 @@ const CreateEmployee = () => {
 
   const dispatch = useDispatch()
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [birthdate, setBirthdate] = useState(null)
-  const [startdate, setStartdate] = useState(null)
-  const [street, setStreet] = useState('')
-  const [city, setCity] = useState('')
-  const [state, setState] = useState(null)
-  const [zipCode, setZipCode] = useState('')
-  const [department, setDepartment] = useState('')
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    birthdate: null,
+    startdate: null,
+    street: '',
+    city: '',
+    state: null,
+    zipCode: '',
+    department: '',
+  })
 
   const isStateSelected = useSelector((state) => state.state.selected)
   const isDepartmentSelected = useSelector((state) => state.department.selected)
@@ -33,10 +35,16 @@ const CreateEmployee = () => {
   const STATES = statesList.map((s) => ({ value: s.abbreviation, label: s.name }))
   const DEPARTMENTS = departments.map((d) => ({ value: d.name, label: d.name }))
 
+  const handleFormChange = (key, value) => {
+    setFormData((prevData) => ({ ...prevData, [key]: value }))
+  }
+
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    saveEmployee()
-    setIsModalVisible(true)
+    if (isStateSelected && isDepartmentSelected) {
+      saveEmployee()
+      setIsModalVisible(true)
+    }
   }
 
   const closeModal = () => {
@@ -44,21 +52,9 @@ const CreateEmployee = () => {
   }
 
   const saveEmployee = () => {
-    if (isStateSelected && isDepartmentSelected) {
-      const employees = JSON.parse(localStorage.getItem('employees')) || []
-      employees.push({
-        firstName,
-        lastName,
-        birthdate,
-        startdate,
-        street,
-        city,
-        state,
-        zipCode,
-        department,
-      })
-      localStorage.setItem('employees', JSON.stringify(employees))
-    }
+    const employees = JSON.parse(localStorage.getItem('employees')) || []
+    employees.push(formData)
+    localStorage.setItem('employees', JSON.stringify(employees))
   }
 
   return (
@@ -72,46 +68,46 @@ const CreateEmployee = () => {
               label='First Name'
               type='text'
               id='first-name'
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => handleFormChange('firstName', e.target.value)}
             />
             <FormInput
               label='Last Name'
               type='text'
               id='last-name'
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => handleFormChange('lastName', e.target.value)}
             />
             <DateInput
               label='Date of Birth'
               id='date-of-birth'
-              selected={birthdate}
-              onChange={setBirthdate}
+              selected={formData.birthdate}
+              onChange={(date) => handleFormChange('birthdate', date)}
             />
             <DateInput
               label='Start Date'
               id='start-date'
-              selected={startdate}
-              onChange={setStartdate}
+              selected={formData.startdate}
+              onChange={(date) => handleFormChange('startdate', date)}
             />
             <SelectInput
               label='Department'
               options={DEPARTMENTS}
               placeholder='Select a department'
               id='department-required'
-              onChange={(e) => {
-                setDepartment(e.label)
+              onChange={(option) => {
+                handleFormChange('department', option.label)
                 dispatch(departmentSelected())
               }}
               requiredMessage='Please select a department'
             />
             <AddressFieldset
               states={STATES}
-              stateHandler={(e) => {
-                setState(e.label)
+              stateHandler={(option) => {
+                handleFormChange('state', option.label)
                 dispatch(stateSelected())
               }}
-              cityHandler={(e) => setCity(e.target.value)}
-              streetHandler={(e) => setStreet(e.target.value)}
-              zipHandler={(e) => setZipCode(e.target.value)}
+              cityHandler={(e) => handleFormChange('city', e.target.value)}
+              streetHandler={(e) => handleFormChange('street', e.target.value)}
+              zipHandler={(e) => handleFormChange('zipCode', e.target.value)}
             />
             <button type='submit' className='create-employee__submit'>
               Save

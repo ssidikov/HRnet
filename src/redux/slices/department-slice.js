@@ -5,7 +5,7 @@ const initialSelectDepartment = {
 }
 
 const selectDepartmentSlice = createSlice({
-  name: 'selectDepartment',
+  name: 'department',
   initialState: initialSelectDepartment,
   reducers: {
     departmentSelected: (state) => {
@@ -15,5 +15,4 @@ const selectDepartmentSlice = createSlice({
 })
 
 export const { departmentSelected } = selectDepartmentSlice.actions
-
 export const selectDepartmentReducer = selectDepartmentSlice.reducer
