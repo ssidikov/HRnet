@@ -10,7 +10,7 @@ import DateInput from '../../components/DateInput'
 import SelectInput from '../../components/SelectInput'
 import AddressFieldset from '../../components/AddressFieldset'
 import SuccessModal from 'react-success-modal'
-import './styles.sass'
+import './CreateEmployee.sass'
 
 const CreateEmployee = () => {
   document.title = 'HRnet'
