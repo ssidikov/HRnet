@@ -5,14 +5,10 @@ import EmployeeList from '../pages/EmployeeList'
 function App() {
   return (
     <HashRouter>
-      <div className='app-container'>
-        <main className='content-wrapper'>
-          <Routes>
-            <Route path='/' element={<CreateEmployee />} />
-            <Route path='/employees' element={<EmployeeList />} />
-          </Routes>
-        </main>
-      </div>
+      <Routes>
+        <Route path='/' element={<CreateEmployee />} />
+        <Route path='/employees' element={<EmployeeList />} />
+      </Routes>
     </HashRouter>
   )
 }

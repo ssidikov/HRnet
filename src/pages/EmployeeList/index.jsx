@@ -65,7 +65,7 @@ const QuickSearchToolbar = () => {
  * @returns {JSX.Element} EmployeeList page
  */
 const EmployeeList = () => {
-  document.title = 'HRnet - Current Employees'
+  document.title = 'HRnet - Employees List'
   return (
     <main id='employee-div' className='employee-list container'>
       <Header title='Current Employees' link='/' headerNavText='Home' />
