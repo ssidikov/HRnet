@@ -47,7 +47,11 @@ const getEmployees = () => {
  */
 const QuickSearchToolbar = () => {
   return (
-    <Box sx={{ p: 1 }} className='employee-list__filter-toolbar'>
+    <Box
+      sx={{ p: 1 }}
+      className='employee-list__filter-toolbar'
+      role='toolbar'
+      aria-label='Quick Search Toolbar'>
       <GridToolbarQuickFilter
         quickFilterParser={(searchInput) =>
           searchInput
@@ -55,6 +59,7 @@ const QuickSearchToolbar = () => {
             .map((value) => value.trim())
             .filter((value) => value !== '')
         }
+        aria-label='Quick Search Input'
       />
     </Box>
   )
@@ -66,13 +71,14 @@ const QuickSearchToolbar = () => {
  */
 const EmployeeList = () => {
   document.title = 'HRnet - Employees List'
+  const rows = getEmployees()
   return (
-    <main id='employee-div' className='employee-list container'>
+    <main id='employee-div' className='employee-list container' role='main'>
       <Header title='Current Employees' link='/' headerNavText='Home' />
-      <section className='employee-list__table'>
+      <section className='employee-list__table' role='region' aria-label='Employee Table Section'>
         <div className='employee-list__table-main'>
           <DataGrid
-            rows={getEmployees()}
+            rows={rows}
             columns={dataColumns}
             disableColumnMenu={true}
             rowsPerPageOptions={[10, 25, 100]}
@@ -85,6 +91,7 @@ const EmployeeList = () => {
                 },
               },
             }}
+            aria-label='Employee Data Table'
           />
         </div>
       </section>

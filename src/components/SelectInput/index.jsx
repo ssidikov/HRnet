@@ -2,7 +2,7 @@ import Select from 'react-select'
 import PropTypes from 'prop-types'
 import './SelectInput.sass'
 
-const SelectInput = ({ label, options, placeholder, onChange, id, requiredMessage }) => (
+const SelectInput = ({ label, options, placeholder, onChange, id, errorMessage }) => (
   <div className='select-input'>
     <label htmlFor={id} className='select-input__label'>
       {label}
@@ -11,12 +11,10 @@ const SelectInput = ({ label, options, placeholder, onChange, id, requiredMessag
       options={options}
       placeholder={placeholder}
       onChange={onChange}
+      inputId={id}
       className='select-input__select'
-      classNamePrefix='select'
     />
-    <p className='select-input__required' id={id}>
-      {requiredMessage || ''}
-    </p>
+    {errorMessage && <p className='select-input__error'>{errorMessage}</p>}
   </div>
 )
 
@@ -26,7 +24,7 @@ SelectInput.propTypes = {
   placeholder: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  requiredMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
 }
 
 export default SelectInput
