@@ -23,9 +23,7 @@ $desktop: 1440px
   border-radius: $radius
 
 @mixin focus-outline($color)
-  &:focus
-    border-color: $color
-    box-shadow: 0 0 5px rgba($color, 0.5)
+  outline: 2px solid $color
 
 @mixin clamp($min, $pref, $max)
   font-size: clamp($min, $pref, $max)
