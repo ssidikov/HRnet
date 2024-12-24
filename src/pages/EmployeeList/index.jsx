@@ -67,7 +67,7 @@ const QuickSearchToolbar = () => {
 const EmployeeList = () => {
   document.title = 'HRnet - Current Employees'
   return (
-    <main id='employee-div' className='employee-list'>
+    <main id='employee-div' className='employee-list container'>
       <Header title='Current Employees' link='/' headerNavText='Home' />
       <section className='employee-list__table'>
         <div style={{ height: 500, width: '100%', backgroundColor: 'white' }}>

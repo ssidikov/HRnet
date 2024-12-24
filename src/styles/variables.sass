@@ -17,7 +17,7 @@ $font-scale: 1.2
 // Breakpoints
 $phone: 600px
 $tablet: 900px
-$desktop: 1200px
+$desktop: 1440px
 
 // Mixins
 @mixin transition($property, $duration, $easing: ease)
@@ -44,5 +44,5 @@ $desktop: 1200px
     @content
 
 @mixin desktop-version
-  @media (min-width: $desktop)
+  @media (max-width: $desktop)
     @content
