@@ -70,7 +70,7 @@ const EmployeeList = () => {
     <main id='employee-div' className='employee-list container'>
       <Header title='Current Employees' link='/' headerNavText='Home' />
       <section className='employee-list__table'>
-        <div style={{ height: 500, width: '100%', backgroundColor: 'white' }}>
+        <div className='employee-list__table-main'>
           <DataGrid
             rows={getEmployees()}
             columns={dataColumns}

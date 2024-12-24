@@ -19,12 +19,17 @@
         color: $hover-color
 
   &__table
-    background-color: #f0f8ff
+    background-color: $bg-color
     padding: 20px
     border-radius: 0
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
     // max-width: 90%
     margin: 20px auto
+
+    &-main
+      height: 500px
+      width: 100%
+      background-color: $bg-color
 
     .MuiSvgIcon-root
       color: $bg-color
@@ -33,8 +38,8 @@
       display: flex
       width: 300px
       // align-items: center
-      border: 1px solid $main-color
-      @include border-radius(8px)
+      border: 2px solid rgba(44, 62, 80, 0.22)
+      @include border-radius(5px)
       padding: 8px 12px
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
       transition: all 0.3s ease
@@ -76,9 +81,8 @@
           color: $hover-color
 
     .MuiDataGrid-root
-      background-color: #f0f8ff
+      // background-color: #f0f8ff
       border-radius: 0
-      font-family: $main-font
       .MuiDataGrid-columnHeaders
         background-color: $main-color
         color: #fff
@@ -97,6 +101,9 @@
   &__filter-toolbar
     padding: 10px 15px
     background-color: #f0f8ff
+
+    & svg
+      color: $main-color !important
 
     input
       // border: 1px solid #ddd
