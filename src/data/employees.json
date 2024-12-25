@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "birthdate": "1985-06-15",
+    "startdate": "2015-01-01",
+    "street": "123 Main St",
+    "city": "New York",
+    "state": "NY",
+    "zipCode": "10001",
+    "department": "Engineering"
+  },
+  {
+    "id": 2,
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "birthdate": "1990-03-25",
+    "startdate": "2017-06-15",
+    "street": "456 Oak Ave",
+    "city": "Los Angeles",
+    "state": "CA",
+    "zipCode": "90001",
+    "department": "Marketing"
+  },
+  {
+    "id": 3,
+    "firstName": "Michael",
+    "lastName": "Johnson",
+    "birthdate": "1982-09-10",
+    "startdate": "2010-07-20",
+    "street": "789 Pine Rd",
+    "city": "Chicago",
+    "state": "IL",
+    "zipCode": "60601",
+    "department": "Sales"
+  }
+]
