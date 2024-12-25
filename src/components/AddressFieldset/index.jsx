@@ -10,6 +10,10 @@ const AddressFieldset = ({
   streetHandler,
   zipHandler,
   stateError,
+  cityValue,
+  streetValue,
+  zipValue,
+  stateValue,
 }) => (
   <fieldset className='address'>
     <legend className='address__legend'>Address</legend>
@@ -17,6 +21,7 @@ const AddressFieldset = ({
       label='Street'
       type='text'
       id='street'
+      value={streetValue} // Привязка значения
       onChange={streetHandler}
       className='address__input'
     />
@@ -24,6 +29,7 @@ const AddressFieldset = ({
       label='City'
       type='text'
       id='city'
+      value={cityValue} // Привязка значения
       onChange={cityHandler}
       className='address__input'
     />
@@ -32,6 +38,7 @@ const AddressFieldset = ({
       options={states}
       placeholder='Select a state'
       id='state-required'
+      value={stateValue ? { label: stateValue, value: stateValue } : null} // Привязка значения
       onChange={stateHandler}
       requiredMessage={stateError}
       className='address__select'
@@ -40,6 +47,7 @@ const AddressFieldset = ({
       label='Zip Code'
       type='number'
       id='zip-code'
+      value={zipValue} // Привязка значения
       onChange={zipHandler}
       className='address__input'
     />
@@ -47,12 +55,21 @@ const AddressFieldset = ({
 )
 
 AddressFieldset.propTypes = {
-  states: PropTypes.array.isRequired,
+  states: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   stateHandler: PropTypes.func.isRequired,
   cityHandler: PropTypes.func.isRequired,
   streetHandler: PropTypes.func.isRequired,
   zipHandler: PropTypes.func.isRequired,
   stateError: PropTypes.string,
+  cityValue: PropTypes.string.isRequired,
+  streetValue: PropTypes.string.isRequired,
+  zipValue: PropTypes.string.isRequired,
+  stateValue: PropTypes.string,
 }
 
 export default AddressFieldset

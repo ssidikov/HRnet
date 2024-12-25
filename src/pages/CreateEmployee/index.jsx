@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { stateSelected } from '../../redux/slices/states-slice'
 import { departmentSelected } from '../../redux/slices/department-slice'
+import { addEmployee } from '../../redux/slices/employees-slice'
 import { statesList } from '../../data/usStates'
 import { departments } from '../../data/companyDepartments'
 import Header from '../../components/Header'
@@ -17,7 +18,7 @@ const CreateEmployee = () => {
 
   const dispatch = useDispatch()
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [formAttemptedSubmit, setFormAttemptedSubmit] = useState(false) // New State
+  const [formAttemptedSubmit, setFormAttemptedSubmit] = useState(false)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [birthdate, setBirthdate] = useState(null)
@@ -26,19 +27,33 @@ const CreateEmployee = () => {
   const [city, setCity] = useState('')
   const [state, setState] = useState(null)
   const [zipCode, setZipCode] = useState('')
-  const [department, setDepartment] = useState('')
+  const [department, setDepartment] = useState(null)
 
   const STATES = statesList.map((s) => ({ value: s.abbreviation, label: s.name }))
   const DEPARTMENTS = departments.map((d) => ({ value: d.name, label: d.name }))
 
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    setFormAttemptedSubmit(true) // indicate that the form tried to be sent
+    setFormAttemptedSubmit(true)
 
     if (state && department) {
       saveEmployee()
       setIsModalVisible(true)
+      resetForm()
     }
+  }
+
+  const resetForm = () => {
+    setFirstName('')
+    setLastName('')
+    setBirthdate(null)
+    setStartdate(null)
+    setStreet('')
+    setCity('')
+    setState(null)
+    setZipCode('')
+    setDepartment(null)
+    setFormAttemptedSubmit(false) // Сброс состояния попытки отправки
   }
 
   const closeModal = () => {
@@ -46,19 +61,18 @@ const CreateEmployee = () => {
   }
 
   const saveEmployee = () => {
-    const employees = JSON.parse(localStorage.getItem('employees')) || []
-    employees.push({
+    const employee = {
       firstName,
       lastName,
-      birthdate,
-      startdate,
+      birthdate: birthdate ? birthdate.toISOString() : null,
+      startdate: startdate ? startdate.toISOString() : null,
       street,
       city,
       state,
       zipCode,
       department,
-    })
-    localStorage.setItem('employees', JSON.stringify(employees))
+    }
+    dispatch(addEmployee(employee))
   }
 
   return (
@@ -72,12 +86,14 @@ const CreateEmployee = () => {
               label='First Name'
               type='text'
               id='first-name'
+              value={firstName} // Привязка значения
               onChange={(e) => setFirstName(e.target.value)}
             />
             <FormInput
               label='Last Name'
               type='text'
               id='last-name'
+              value={lastName} // Привязка значения
               onChange={(e) => setLastName(e.target.value)}
             />
             <DateInput
@@ -97,8 +113,9 @@ const CreateEmployee = () => {
               options={DEPARTMENTS}
               placeholder='Select a department'
               id='department-required'
+              value={department ? { label: department, value: department } : null} // Привязка значения
               onChange={(selectedOption) => {
-                setDepartment(selectedOption?.label || '')
+                setDepartment(selectedOption?.value || '')
                 dispatch(departmentSelected())
               }}
               requiredMessage={
@@ -108,13 +125,17 @@ const CreateEmployee = () => {
             <AddressFieldset
               states={STATES}
               stateHandler={(selectedOption) => {
-                setState(selectedOption?.label || '')
+                setState(selectedOption?.value || '')
                 dispatch(stateSelected())
               }}
               cityHandler={(e) => setCity(e.target.value)}
               streetHandler={(e) => setStreet(e.target.value)}
               zipHandler={(e) => setZipCode(e.target.value)}
               stateError={formAttemptedSubmit && !state ? 'Please select a state' : ''}
+              cityValue={city}
+              streetValue={street}
+              zipValue={zipCode}
+              stateValue={state}
             />
             <button type='submit' className='create-employee__submit'>
               Save
