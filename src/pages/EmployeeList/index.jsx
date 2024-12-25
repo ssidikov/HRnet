@@ -1,10 +1,11 @@
 import { dataColumns } from '../../data/dataGridColumns'
-import moment from 'moment'
 import { DataGrid, GridToolbarQuickFilter, GridLinkOperator } from '@mui/x-data-grid'
 import { Box } from '@mui/material'
 import './EmployeeList.sass'
 import Header from '../../components/Header'
 import { statesList } from '../../data/usStates'
+import { format } from 'date-fns'
+import { memo } from 'react'
 
 /**
  * Formats a date to a readable string
@@ -12,7 +13,7 @@ import { statesList } from '../../data/usStates'
  * @returns formatted date string
  */
 const formatDate = (date) => {
-  return moment(date).format('L')
+  return format(new Date(date), 'dd/MM/yyyy')
 }
 
 /**
@@ -20,32 +21,73 @@ const formatDate = (date) => {
  * @param {string} stateName
  * @returns {string} state abbreviation
  */
+
+const statesMap = statesList.reduce((acc, state) => {
+  acc[state.name] = state.abbreviation
+  return acc
+}, {})
+
 const getStateAbbreviation = (stateName) => {
-  const state = statesList.find((item) => item.name === stateName)
-  return state ? state.abbreviation : stateName
+  return statesMap[stateName] || stateName
 }
 
 /**
  * Retrieves employees from local storage and maps data
  * @returns {Array} employees with formatted data
  */
+// const getEmployees = () => {
+//   const storedEmployees = localStorage.getItem('employees')
+//   if (!storedEmployees) return []
+//   return JSON.parse(storedEmployees).map((employee, index) => ({
+//     ...employee,
+//     id: index,
+//     startDate: formatDate(employee.startdate),
+//     dateOfBirth: formatDate(employee.birthdate),
+//     state: getStateAbbreviation(employee.state), // Replace the name of the state for the abbreviation
+//   }))
+// }
+
 const getEmployees = () => {
-  const storedEmployees = localStorage.getItem('employees')
-  if (!storedEmployees) return []
-  return JSON.parse(storedEmployees).map((employee, index) => ({
-    ...employee,
-    id: index,
-    startDate: formatDate(employee.startdate),
-    dateOfBirth: formatDate(employee.birthdate),
-    state: getStateAbbreviation(employee.state), // Replace the name of the state for the abbreviation
-  }))
+  try {
+    const storedEmployees = JSON.parse(localStorage.getItem('employees')) || []
+    return storedEmployees.map((employee, index) => ({
+      ...employee,
+      id: index,
+      startDate: formatDate(employee.startdate),
+      dateOfBirth: formatDate(employee.birthdate),
+      state: getStateAbbreviation(employee.state),
+    }))
+  } catch (error) {
+    console.error('Error parsing employees data:', error)
+    return []
+  }
 }
 
 /**
  * Returns a search toolbar
  * @returns {JSX.Element} Quick filter toolbar
  */
-const QuickSearchToolbar = () => {
+// const QuickSearchToolbar = () => {
+//   return (
+//     <Box
+//       sx={{ p: 1 }}
+//       className='employee-list__filter-toolbar'
+//       role='toolbar'
+//       aria-label='Quick Search Toolbar'>
+//       <GridToolbarQuickFilter
+//         quickFilterParser={(searchInput) =>
+//           searchInput
+//             .split(',')
+//             .map((value) => value.trim())
+//             .filter((value) => value !== '')
+//         }
+//         aria-label='Quick Search Input'
+//       />
+//     </Box>
+//   )
+// }
+
+const QuickSearchToolbar = memo(() => {
   return (
     <Box
       sx={{ p: 1 }}
@@ -63,7 +105,8 @@ const QuickSearchToolbar = () => {
       />
     </Box>
   )
-}
+})
+QuickSearchToolbar.displayName = 'QuickSearchToolbar'
 
 /**
  * EmployeeList page component
@@ -92,6 +135,7 @@ const EmployeeList = () => {
               },
             }}
             aria-label='Employee Data Table'
+            getRowId={(row) => row.id}
           />
         </div>
       </section>
