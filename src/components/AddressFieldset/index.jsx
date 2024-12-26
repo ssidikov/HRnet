@@ -9,6 +9,7 @@ const AddressFieldset = ({
   cityHandler,
   streetHandler,
   zipHandler,
+  formAttemptedSubmit,
   stateError,
   cityValue,
   streetValue,
@@ -24,6 +25,7 @@ const AddressFieldset = ({
       value={streetValue}
       onChange={streetHandler}
       className='address__input'
+      errorMessage={formAttemptedSubmit && !streetValue ? 'Please enter a street' : ''}
     />
     <FormInput
       label='City'
@@ -32,6 +34,7 @@ const AddressFieldset = ({
       value={cityValue}
       onChange={cityHandler}
       className='address__input'
+      errorMessage={formAttemptedSubmit && !cityValue ? 'Please enter a city' : ''}
     />
     <SelectInput
       label='State'
@@ -50,6 +53,7 @@ const AddressFieldset = ({
       value={zipValue}
       onChange={zipHandler}
       className='address__input'
+      errorMessage={formAttemptedSubmit && !zipValue ? 'Please enter a zip code' : ''}
     />
   </fieldset>
 )
@@ -65,6 +69,7 @@ AddressFieldset.propTypes = {
   cityHandler: PropTypes.func.isRequired,
   streetHandler: PropTypes.func.isRequired,
   zipHandler: PropTypes.func.isRequired,
+  formAttemptedSubmit: PropTypes.bool.isRequired,
   stateError: PropTypes.string,
   cityValue: PropTypes.string.isRequired,
   streetValue: PropTypes.string.isRequired,

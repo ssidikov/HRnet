@@ -12,9 +12,9 @@ const SelectInput = ({ label, options, placeholder, onChange, id, errorMessage }
       placeholder={placeholder}
       onChange={onChange}
       inputId={id}
-      className='select-input__select'
+      className={`select-input__select ${errorMessage ? 'select-input__select--error' : ''}`}
     />
-    {errorMessage && <p className='select-input__error'>{errorMessage}</p>}
+    {errorMessage && <p className='form-input__error'>{errorMessage}</p>}
   </div>
 )
 

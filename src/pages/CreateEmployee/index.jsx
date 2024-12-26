@@ -28,6 +28,12 @@ const CreateEmployee = () => {
   const [state, setState] = useState(null)
   const [zipCode, setZipCode] = useState('')
   const [department, setDepartment] = useState(null)
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    state: '',
+    department: '',
+  })
 
   const STATES = statesList.map((s) => ({ value: s.abbreviation, label: s.name }))
   const DEPARTMENTS = departments.map((d) => ({ value: d.name, label: d.name }))
@@ -36,23 +42,47 @@ const CreateEmployee = () => {
     e.preventDefault()
     setFormAttemptedSubmit(true)
 
-    if (state && department) {
+    const newErrors = {
+      firstName: !firstName.trim() ? 'Please enter a first name' : '',
+      lastName: !lastName.trim() ? 'Please enter a last name' : '',
+      birthdate: !birthdate ? 'Date of birth is required' : '',
+      startdate: !startdate ? 'Start date is required' : '',
+      street: !street.trim() ? 'Please enter a street' : '',
+      city: !city.trim() ? 'Please enter a city' : '',
+      zipCode: !zipCode.trim() ? 'Please enter a zip code' : '',
+      state: !state ? 'Please select a state' : '',
+      department: !department ? 'Please select a department' : '',
+    }
+
+    setErrors(newErrors)
+
+    if (Object.values(newErrors).every((error) => !error)) {
       saveEmployee()
       setIsModalVisible(true)
+      setFormAttemptedSubmit(false)
       resetForm()
+    }
+
+    if (!street || !city || !state || !zipCode || !birthdate || !startdate) {
+      setFormAttemptedSubmit(true) // Установить флаг для отображения ошибок
+      return // Остановить отправку, если есть ошибки
     }
   }
 
   const resetForm = () => {
     setFirstName('')
     setLastName('')
-    setBirthdate(null)
-    setStartdate(null)
+    setState('')
+    setDepartment('')
     setStreet('')
     setCity('')
-    setState(null)
     setZipCode('')
-    setDepartment(null)
+    setErrors({
+      firstName: '',
+      lastName: '',
+      state: '',
+      department: '',
+    })
     setFormAttemptedSubmit(false)
   }
 
@@ -81,13 +111,14 @@ const CreateEmployee = () => {
       <main className='create-employee'>
         <section className='create-employee__container'>
           <h2 className='create-employee__header'>Create Employee</h2>
-          <form onSubmit={handleFormSubmit} className='create-employee__form'>
+          <form onSubmit={handleFormSubmit} className='create-employee__form' noValidate>
             <FormInput
               label='First Name'
               type='text'
               id='first-name'
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              errorMessage={errors.firstName}
             />
             <FormInput
               label='Last Name'
@@ -95,18 +126,21 @@ const CreateEmployee = () => {
               id='last-name'
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
+              errorMessage={errors.lastName}
             />
             <DateInput
               label='Date of Birth'
               id='date-of-birth'
               selected={birthdate}
               onChange={setBirthdate}
+              errorMessage={formAttemptedSubmit && !birthdate ? 'Date of birth is required' : ''}
             />
             <DateInput
               label='Start Date'
               id='start-date'
               selected={startdate}
               onChange={setStartdate}
+              errorMessage={formAttemptedSubmit && !startdate ? 'Start date is required' : ''}
             />
             <SelectInput
               label='Department'
@@ -129,12 +163,14 @@ const CreateEmployee = () => {
               cityHandler={(e) => setCity(e.target.value)}
               streetHandler={(e) => setStreet(e.target.value)}
               zipHandler={(e) => setZipCode(e.target.value)}
+              formAttemptedSubmit={formAttemptedSubmit} // Передача переменной
               stateError={formAttemptedSubmit && !state ? 'Please select a state' : ''}
               cityValue={city}
               streetValue={street}
               zipValue={zipCode}
               stateValue={state}
             />
+
             <button type='submit' className='create-employee__submit'>
               Save
             </button>
