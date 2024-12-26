@@ -2,26 +2,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import Header from '../../components/Header'
 import Table from '../../components/Table'
 import { dataColumns } from '../../data/dataGridColumns'
-import { format } from 'date-fns'
-import { statesList } from '../../data/usStates'
 import { useEffect } from 'react'
 import { loadEmployeesFromApi } from '../../redux/slices/employees-slice'
+import { formatDate, getStateAbbreviation } from '../../utils/utils'
 import './EmployeeList.sass'
-
-// Function for formatting the date
-const formatDate = (date) => {
-  return format(new Date(date), 'dd/MM/yyyy')
-}
-
-// Mapping of the full names of the States in their abbreviations
-const statesMap = statesList.reduce((acc, state) => {
-  acc[state.name] = state.abbreviation
-  return acc
-}, {})
-
-const getStateAbbreviation = (stateName) => {
-  return statesMap[stateName] || stateName
-}
 
 // Page of the list of employees
 const EmployeeList = () => {
