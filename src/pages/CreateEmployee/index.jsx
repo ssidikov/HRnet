@@ -63,17 +63,20 @@ const CreateEmployee = () => {
       resetForm()
     }
 
+    // Check if any of the required fields are empty
     if (!street || !city || !state || !zipCode || !birthdate || !startdate) {
-      setFormAttemptedSubmit(true) // Установить флаг для отображения ошибок
-      return // Остановить отправку, если есть ошибки
+      setFormAttemptedSubmit(true) // Install the flag to display errors
+      return // Stop sending if there are mistakes
     }
   }
 
   const resetForm = () => {
     setFirstName('')
     setLastName('')
-    setState('')
-    setDepartment('')
+    setBirthdate(null)
+    setStartdate(null)
+    setState(null) // Reset to null instead of ''
+    setDepartment(null) // Reset to null instead of ''
     setStreet('')
     setCity('')
     setZipCode('')
@@ -149,7 +152,7 @@ const CreateEmployee = () => {
               id='department-required'
               value={department ? { label: department, value: department } : null}
               onChange={(selectedOption) => {
-                setDepartment(selectedOption?.value || '')
+                setDepartment(selectedOption?.value || null)
                 dispatch(departmentSelected())
               }}
               errorMessage={formAttemptedSubmit && !department ? 'Please select a department' : ''}
@@ -157,13 +160,13 @@ const CreateEmployee = () => {
             <AddressFieldset
               states={STATES}
               stateHandler={(selectedOption) => {
-                setState(selectedOption?.value || '')
+                setState(selectedOption?.value || null)
                 dispatch(stateSelected())
               }}
               cityHandler={(e) => setCity(e.target.value)}
               streetHandler={(e) => setStreet(e.target.value)}
               zipHandler={(e) => setZipCode(e.target.value)}
-              formAttemptedSubmit={formAttemptedSubmit} // Передача переменной
+              formAttemptedSubmit={formAttemptedSubmit} // Transfer of a variable
               stateError={formAttemptedSubmit && !state ? 'Please select a state' : ''}
               cityValue={city}
               streetValue={street}
