@@ -17,41 +17,56 @@ const CreateEmployee = () => {
   document.title = 'HRnet'
 
   const dispatch = useDispatch()
-  const [isModalVisible, setIsModalVisible] = useState(false)
-  const [formAttemptedSubmit, setFormAttemptedSubmit] = useState(false)
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [birthdate, setBirthdate] = useState(null)
-  const [startdate, setStartdate] = useState(null)
-  const [street, setStreet] = useState('')
-  const [city, setCity] = useState('')
-  const [state, setState] = useState(null)
-  const [zipCode, setZipCode] = useState('')
-  const [department, setDepartment] = useState(null)
-  const [errors, setErrors] = useState({
+
+  // Unified state for all fields of form
+  const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    state: '',
-    department: '',
+    birthdate: null,
+    startdate: null,
+    street: '',
+    city: '',
+    state: null,
+    zipCode: '',
+    department: null,
   })
+
+  const [errors, setErrors] = useState({})
+  const [formAttemptedSubmit, setFormAttemptedSubmit] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const STATES = statesList.map((s) => ({ value: s.abbreviation, label: s.name }))
   const DEPARTMENTS = departments.map((d) => ({ value: d.name, label: d.name }))
+
+  // Universal function for updating the condition
+  const handleChange = (e, field) => {
+    setFormData({
+      ...formData,
+      [field]: e.target ? e.target.value : e,
+    })
+  }
+
+  const handleSelectChange = (selectedOption, field) => {
+    setFormData({
+      ...formData,
+      [field]: selectedOption ? selectedOption.value : null,
+    })
+  }
 
   const handleFormSubmit = (e) => {
     e.preventDefault()
     setFormAttemptedSubmit(true)
 
     const newErrors = {
-      firstName: !firstName.trim() ? 'Please enter a first name' : '',
-      lastName: !lastName.trim() ? 'Please enter a last name' : '',
-      birthdate: !birthdate ? 'Date of birth is required' : '',
-      startdate: !startdate ? 'Start date is required' : '',
-      street: !street.trim() ? 'Please enter a street' : '',
-      city: !city.trim() ? 'Please enter a city' : '',
-      zipCode: !zipCode.trim() ? 'Please enter a zip code' : '',
-      state: !state ? 'Please select a state' : '',
-      department: !department ? 'Please select a department' : '',
+      firstName: !formData.firstName.trim() ? 'Please enter a first name' : '',
+      lastName: !formData.lastName.trim() ? 'Please enter a last name' : '',
+      birthdate: !formData.birthdate ? 'Date of birth is required' : '',
+      startdate: !formData.startdate ? 'Start date is required' : '',
+      street: !formData.street.trim() ? 'Please enter a street' : '',
+      city: !formData.city.trim() ? 'Please enter a city' : '',
+      zipCode: !formData.zipCode.trim() ? 'Please enter a zip code' : '',
+      state: !formData.state ? 'Please select a state' : '',
+      department: !formData.department ? 'Please select a department' : '',
     }
 
     setErrors(newErrors)
@@ -62,30 +77,21 @@ const CreateEmployee = () => {
       setFormAttemptedSubmit(false)
       resetForm()
     }
-
-    // Check if any of the required fields are empty
-    if (!street || !city || !state || !zipCode || !birthdate || !startdate) {
-      setFormAttemptedSubmit(true) // Install the flag to display errors
-      return // Stop sending if there are mistakes
-    }
   }
 
   const resetForm = () => {
-    setFirstName('')
-    setLastName('')
-    setBirthdate(null)
-    setStartdate(null)
-    setState(null) // Reset to null instead of ''
-    setDepartment(null) // Reset to null instead of ''
-    setStreet('')
-    setCity('')
-    setZipCode('')
-    setErrors({
+    setFormData({
       firstName: '',
       lastName: '',
-      state: '',
-      department: '',
+      birthdate: null,
+      startdate: null,
+      street: '',
+      city: '',
+      state: null,
+      zipCode: '',
+      department: null,
     })
+    setErrors({})
     setFormAttemptedSubmit(false)
   }
 
@@ -95,15 +101,9 @@ const CreateEmployee = () => {
 
   const saveEmployee = () => {
     const employee = {
-      firstName,
-      lastName,
-      birthdate: birthdate ? birthdate.toISOString() : null,
-      startdate: startdate ? startdate.toISOString() : null,
-      street,
-      city,
-      state,
-      zipCode,
-      department,
+      ...formData,
+      birthdate: formData.birthdate ? formData.birthdate.toISOString() : null,
+      startdate: formData.startdate ? formData.startdate.toISOString() : null,
     }
     dispatch(addEmployee(employee))
   }
@@ -119,61 +119,70 @@ const CreateEmployee = () => {
               label='First Name'
               type='text'
               id='first-name'
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              value={formData.firstName}
+              onChange={(e) => handleChange(e, 'firstName')}
               errorMessage={errors.firstName}
             />
             <FormInput
               label='Last Name'
               type='text'
               id='last-name'
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              value={formData.lastName}
+              onChange={(e) => handleChange(e, 'lastName')}
               errorMessage={errors.lastName}
             />
             <DateInput
               label='Date of Birth'
               id='date-of-birth'
-              selected={birthdate}
-              onChange={setBirthdate}
-              errorMessage={formAttemptedSubmit && !birthdate ? 'Date of birth is required' : ''}
+              selected={formData.birthdate}
+              onChange={(e) => handleChange(e, 'birthdate')}
+              errorMessage={
+                formAttemptedSubmit && !formData.birthdate ? 'Date of birth is required' : ''
+              }
             />
             <DateInput
               label='Start Date'
               id='start-date'
-              selected={startdate}
-              onChange={setStartdate}
-              errorMessage={formAttemptedSubmit && !startdate ? 'Start date is required' : ''}
+              selected={formData.startdate}
+              onChange={(e) => handleChange(e, 'startdate')}
+              errorMessage={
+                formAttemptedSubmit && !formData.startdate ? 'Start date is required' : ''
+              }
             />
             <SelectInput
               label='Department'
               options={DEPARTMENTS}
               placeholder='Select a department'
               id='department-required'
-              value={department ? { label: department, value: department } : null}
+              value={
+                formData.department
+                  ? { label: formData.department, value: formData.department }
+                  : null
+              }
               onChange={(selectedOption) => {
-                setDepartment(selectedOption?.value || null)
+                handleSelectChange(selectedOption, 'department')
                 dispatch(departmentSelected())
               }}
-              errorMessage={formAttemptedSubmit && !department ? 'Please select a department' : ''}
+              errorMessage={
+                formAttemptedSubmit && !formData.department ? 'Please select a department' : ''
+              }
             />
             <AddressFieldset
               states={STATES}
               stateHandler={(selectedOption) => {
-                setState(selectedOption?.value || null)
+                handleSelectChange(selectedOption, 'state')
                 dispatch(stateSelected())
               }}
-              cityHandler={(e) => setCity(e.target.value)}
-              streetHandler={(e) => setStreet(e.target.value)}
-              zipHandler={(e) => setZipCode(e.target.value)}
-              formAttemptedSubmit={formAttemptedSubmit} // Transfer of a variable
-              stateError={formAttemptedSubmit && !state ? 'Please select a state' : ''}
-              cityValue={city}
-              streetValue={street}
-              zipValue={zipCode}
-              stateValue={state}
+              cityHandler={(e) => handleChange(e, 'city')}
+              streetHandler={(e) => handleChange(e, 'street')}
+              zipHandler={(e) => handleChange(e, 'zipCode')}
+              formAttemptedSubmit={formAttemptedSubmit}
+              stateError={formAttemptedSubmit && !formData.state ? 'Please select a state' : ''}
+              cityValue={formData.city}
+              streetValue={formData.street}
+              zipValue={formData.zipCode}
+              stateValue={formData.state}
             />
-
             <button type='submit' className='create-employee__submit'>
               Save
             </button>
