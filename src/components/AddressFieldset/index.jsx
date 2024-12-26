@@ -40,7 +40,7 @@ const AddressFieldset = ({
       id='state-required'
       value={stateValue ? { label: stateValue, value: stateValue } : null}
       onChange={stateHandler}
-      requiredMessage={stateError}
+      errorMessage={stateError}
       className='address__select'
     />
     <FormInput

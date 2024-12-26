@@ -118,9 +118,7 @@ const CreateEmployee = () => {
                 setDepartment(selectedOption?.value || '')
                 dispatch(departmentSelected())
               }}
-              requiredMessage={
-                formAttemptedSubmit && !department ? 'Please select a department' : ''
-              }
+              errorMessage={formAttemptedSubmit && !department ? 'Please select a department' : ''}
             />
             <AddressFieldset
               states={STATES}
