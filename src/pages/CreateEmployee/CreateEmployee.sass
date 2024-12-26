@@ -59,6 +59,7 @@
     @include transition(opacity, $transition, ease-in-out)
 
   &__content
+    width: clamp(15.625rem, 12.9464rem + 13.3929vw, 25rem)
     background: #FCFAF6
     padding: 20px 35px 20px 20px
     @include border-radius($border-radius)
@@ -66,7 +67,6 @@
     position: relative
     transform: translateY(-20px)
     opacity: 0
-    @include transition(transform, $transition, ease-in-out)
     @include transition(opacity, $transition, ease-in-out)
 
   &__content--open
@@ -90,6 +90,6 @@
 
   &__message
     color: $main-color
-    font-size: 1rem
+    font-size: clamp(1rem, 0.8571rem + 0.7143vw, 1.5rem)
     text-align: center
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5)
