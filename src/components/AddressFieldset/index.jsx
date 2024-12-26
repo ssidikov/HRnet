@@ -21,7 +21,7 @@ const AddressFieldset = ({
       label='Street'
       type='text'
       id='street'
-      value={streetValue} // Привязка значения
+      value={streetValue}
       onChange={streetHandler}
       className='address__input'
     />
@@ -29,7 +29,7 @@ const AddressFieldset = ({
       label='City'
       type='text'
       id='city'
-      value={cityValue} // Привязка значения
+      value={cityValue}
       onChange={cityHandler}
       className='address__input'
     />
@@ -38,7 +38,7 @@ const AddressFieldset = ({
       options={states}
       placeholder='Select a state'
       id='state-required'
-      value={stateValue ? { label: stateValue, value: stateValue } : null} // Привязка значения
+      value={stateValue ? { label: stateValue, value: stateValue } : null}
       onChange={stateHandler}
       requiredMessage={stateError}
       className='address__select'
@@ -47,7 +47,7 @@ const AddressFieldset = ({
       label='Zip Code'
       type='number'
       id='zip-code'
-      value={zipValue} // Привязка значения
+      value={zipValue}
       onChange={zipHandler}
       className='address__input'
     />

@@ -53,7 +53,7 @@ const CreateEmployee = () => {
     setState(null)
     setZipCode('')
     setDepartment(null)
-    setFormAttemptedSubmit(false) // Сброс состояния попытки отправки
+    setFormAttemptedSubmit(false)
   }
 
   const closeModal = () => {
@@ -86,14 +86,14 @@ const CreateEmployee = () => {
               label='First Name'
               type='text'
               id='first-name'
-              value={firstName} // Привязка значения
+              value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
             <FormInput
               label='Last Name'
               type='text'
               id='last-name'
-              value={lastName} // Привязка значения
+              value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
             <DateInput
@@ -113,7 +113,7 @@ const CreateEmployee = () => {
               options={DEPARTMENTS}
               placeholder='Select a department'
               id='department-required'
-              value={department ? { label: department, value: department } : null} // Привязка значения
+              value={department ? { label: department, value: department } : null}
               onChange={(selectedOption) => {
                 setDepartment(selectedOption?.value || '')
                 dispatch(departmentSelected())
