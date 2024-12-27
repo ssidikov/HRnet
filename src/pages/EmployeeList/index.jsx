@@ -4,7 +4,7 @@ import Table from '../../components/Table'
 import { dataColumns } from '../../data/dataGridColumns'
 import { useEffect } from 'react'
 import { loadEmployeesFromApi } from '../../redux/slices/employees-slice'
-import { formatDate, getStateAbbreviation } from '../../utils/utils'
+import { selectFormattedEmployees } from '../../redux/selectors'
 import './EmployeeList.sass'
 
 // Page of the list of employees
@@ -13,21 +13,25 @@ const EmployeeList = () => {
 
   const dispatch = useDispatch()
 
-  // Receive data from employees from Redux
-  const employees = useSelector((state) => state.employees.employees).map((employee, index) => ({
-    ...employee,
-    id: index, // assign a unique ID
-    startDate: formatDate(employee.startdate), // Formatting the start date of work
-    dateOfBirth: formatDate(employee.birthdate), // Format the date of birth
-    state: getStateAbbreviation(employee.state), // transform the name of the state to the abbreviation
-  }))
+  // Используем селектор для получения отформатированных данных сотрудников
+  const employees = useSelector(selectFormattedEmployees)
+  const { loading, error } = useSelector((state) => state.employees)
 
-  // Load data from the API if they are not in Redux (and, therefore, in Localstorage)
+  // Загрузка данных из API, если они еще не загружены
   useEffect(() => {
     if (employees.length === 0) {
       dispatch(loadEmployeesFromApi())
     }
   }, [dispatch, employees.length])
+
+  // Условное отображение для состояний загрузки и ошибки
+  if (loading) {
+    return <div className='loading'>Loading...</div>
+  }
+
+  if (error) {
+    return <div className='error'>Error loading employees. Please try again later.</div>
+  }
 
   return (
     <main id='employee-div' className='container'>

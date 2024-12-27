@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { employeesReducer } from './slices/employees-slice'
-import { selectionReducer } from './slices/selection-slice'
 
 // Middleware to maintain a state in Localstorage
 const localStorageMiddleware = (store) => (next) => (action) => {
@@ -12,10 +11,10 @@ const localStorageMiddleware = (store) => (next) => (action) => {
   return result
 }
 
+// Store creation
 export const store = configureStore({
   reducer: {
     employees: employeesReducer,
-    selection: selectionReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
 })
