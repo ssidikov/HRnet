@@ -35,7 +35,7 @@ export const loadEmployees = createAsyncThunk(
 
 // initial state
 const initialState = {
-  employees: [],
+  employees: loadEmployeesFromLocalStorage(),
   loading: false,
   error: null,
 }
