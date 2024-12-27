@@ -1,6 +1,5 @@
 @use '../../styles/variables' as *
 
-// Employee List Styles
 .employee-list
   &__header
     display: flex
@@ -23,7 +22,6 @@
     padding: 20px
     border-radius: 0
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
-    // max-width: 90%
     margin: 20px auto
 
     &-main
@@ -32,19 +30,16 @@
       background-color: $bg-color
 
     .MuiSvgIcon-root
-      color: $bg-color
+      color: #2c3e506b
 
     .MuiFormControl-root
       display: flex
       width: 300px
-      // align-items: center
       border: 2px solid rgba(44, 62, 80, 0.22)
       @include border-radius(5px)
       padding: 8px 12px
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
       transition: all 0.3s ease
-      // @include phone-version
-      //   width: 100%
       &:hover
         border-color: $accent-color
         box-shadow: 0 0 6px rgba($accent-color, 0.5)
@@ -81,7 +76,6 @@
           color: $hover-color
 
     .MuiDataGrid-root
-      // background-color: #f0f8ff
       border-radius: 0
       .MuiDataGrid-columnHeaders
         background-color: $main-color
@@ -100,16 +94,13 @@
 
   &__filter-toolbar
     padding: 10px 15px
-    background-color: #f0f8ff
+    background-color: $bg-color
 
     & svg
       color: $main-color !important
 
     input
-      // border: 1px solid #ddd
-      // background: #fff
       margin: 10px
-      // border-radius: 5px
       padding: 8px 12px
       font-size: 1rem
       transition: border-color 0.3s ease

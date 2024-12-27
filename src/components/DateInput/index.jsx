@@ -27,7 +27,7 @@ const DateInput = ({ label, id, selected, onChange, errorMessage }) => (
 DateInput.propTypes = {
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  selected: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.null]),
+  selected: PropTypes.instanceOf(Date),
   onChange: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
 }

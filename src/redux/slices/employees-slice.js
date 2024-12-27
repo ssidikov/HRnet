@@ -1,14 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-// Function for loading employees from Localstorage
+// Utility for loading employees from Localstorage
 const loadEmployeesFromLocalStorage = () => {
   const employees = localStorage.getItem('employees')
-  return employees ? JSON.parse(employees) : [] // If there is data in Localstorage, pars them
+  return employees ? JSON.parse(employees) : []
 }
+
+// Thunk to download employees from API
+export const loadEmployeesFromApi = createAsyncThunk(
+  'employees/loadFromApi',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        'https://raw.githubusercontent.com/ssidikov/HRnet/refs/heads/main/src/data/employees.json'
+      )
+      if (!response.ok) {
+        throw new Error('Failed to fetch employees')
+      }
+      const data = await response.json()
+      return data
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
 
 // initial state
 const initialState = {
-  employees: loadEmployeesFromLocalStorage(), // Download employees from Localstorage
+  employees: loadEmployeesFromLocalStorage(),
+  loading: false,
+  error: null,
 }
 
 // Slice to manage the condition of employees
@@ -16,32 +37,29 @@ const employeesSlice = createSlice({
   name: 'employees',
   initialState,
   reducers: {
-    // adding a new employee
     addEmployee: (state, action) => {
-      state.employees.push(action.payload) // Add an employee to an array
-      localStorage.setItem('employees', JSON.stringify(state.employees)) // Save in Localstorage
+      state.employees.push(action.payload)
     },
-    // Installation of the list of employees
     setEmployees: (state, action) => {
-      state.employees = action.payload // replace employees with a new list
-      localStorage.setItem('employees', JSON.stringify(state.employees)) // Save in Localstorage
+      state.employees = action.payload
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadEmployeesFromApi.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(loadEmployeesFromApi.fulfilled, (state, action) => {
+        state.loading = false
+        state.employees = action.payload
+      })
+      .addCase(loadEmployeesFromApi.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
   },
 })
 
 export const { addEmployee, setEmployees } = employeesSlice.actions
-
 export const employeesReducer = employeesSlice.reducer
-
-// Thunk for fetching data from github
-export const loadEmployeesFromApi = () => async (dispatch) => {
-  try {
-    const response = await fetch(
-      'https://raw.githubusercontent.com/ssidikov/HRnet/refs/heads/main/src/data/employees.json'
-    )
-    const data = await response.json() // Get data from github
-    dispatch(setEmployees(data)) // Send data to Redux
-  } catch (error) {
-    console.error('Error loading employees:', error) // Logging the error
-  }
-}

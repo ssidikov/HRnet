@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { stateSelected } from '../../redux/slices/states-slice'
-import { departmentSelected } from '../../redux/slices/department-slice'
 import { addEmployee } from '../../redux/slices/employees-slice'
 import { statesList } from '../../data/usStates'
 import { departments } from '../../data/companyDepartments'
@@ -18,7 +16,6 @@ const CreateEmployee = () => {
 
   const dispatch = useDispatch()
 
-  // Unified state for all fields of form
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -32,18 +29,22 @@ const CreateEmployee = () => {
   })
 
   const [errors, setErrors] = useState({})
-  const [formAttemptedSubmit, setFormAttemptedSubmit] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   const STATES = statesList.map((s) => ({ value: s.abbreviation, label: s.name }))
   const DEPARTMENTS = departments.map((d) => ({ value: d.name, label: d.name }))
 
-  // Universal function for updating the condition
   const handleChange = (e, field) => {
     setFormData({
       ...formData,
       [field]: e.target ? e.target.value : e,
     })
+
+    // Remove the error for the current field
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [field]: '',
+    }))
   }
 
   const handleSelectChange = (selectedOption, field) => {
@@ -55,7 +56,6 @@ const CreateEmployee = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    setFormAttemptedSubmit(true)
 
     const newErrors = {
       firstName: !formData.firstName.trim() ? 'Please enter a first name' : '',
@@ -74,7 +74,6 @@ const CreateEmployee = () => {
     if (Object.values(newErrors).every((error) => !error)) {
       saveEmployee()
       setIsModalVisible(true)
-      setFormAttemptedSubmit(false)
       resetForm()
     }
   }
@@ -92,7 +91,6 @@ const CreateEmployee = () => {
       department: null,
     })
     setErrors({})
-    setFormAttemptedSubmit(false)
   }
 
   const closeModal = () => {
@@ -135,19 +133,27 @@ const CreateEmployee = () => {
               label='Date of Birth'
               id='date-of-birth'
               selected={formData.birthdate}
-              onChange={(e) => handleChange(e, 'birthdate')}
-              errorMessage={
-                formAttemptedSubmit && !formData.birthdate ? 'Date of birth is required' : ''
-              }
+              onChange={(date) => {
+                handleChange(date, 'birthdate')
+                setErrors((prevErrors) => ({
+                  ...prevErrors,
+                  birthdate: '',
+                }))
+              }}
+              errorMessage={errors.birthdate}
             />
             <DateInput
               label='Start Date'
               id='start-date'
               selected={formData.startdate}
-              onChange={(e) => handleChange(e, 'startdate')}
-              errorMessage={
-                formAttemptedSubmit && !formData.startdate ? 'Start date is required' : ''
-              }
+              onChange={(date) => {
+                handleChange(date, 'startdate')
+                setErrors((prevErrors) => ({
+                  ...prevErrors,
+                  startdate: '',
+                }))
+              }}
+              errorMessage={errors.startdate}
             />
             <SelectInput
               label='Department'
@@ -161,23 +167,47 @@ const CreateEmployee = () => {
               }
               onChange={(selectedOption) => {
                 handleSelectChange(selectedOption, 'department')
-                dispatch(departmentSelected())
+                setErrors((prevErrors) => ({
+                  ...prevErrors,
+                  department: '',
+                }))
               }}
-              errorMessage={
-                formAttemptedSubmit && !formData.department ? 'Please select a department' : ''
-              }
+              errorMessage={errors.department}
             />
             <AddressFieldset
               states={STATES}
               stateHandler={(selectedOption) => {
                 handleSelectChange(selectedOption, 'state')
-                dispatch(stateSelected())
+                setErrors((prevErrors) => ({
+                  ...prevErrors,
+                  state: '',
+                }))
               }}
-              cityHandler={(e) => handleChange(e, 'city')}
-              streetHandler={(e) => handleChange(e, 'street')}
-              zipHandler={(e) => handleChange(e, 'zipCode')}
-              formAttemptedSubmit={formAttemptedSubmit}
-              stateError={formAttemptedSubmit && !formData.state ? 'Please select a state' : ''}
+              cityHandler={(e) => {
+                handleChange(e, 'city')
+                setErrors((prevErrors) => ({
+                  ...prevErrors,
+                  city: '',
+                }))
+              }}
+              streetHandler={(e) => {
+                handleChange(e, 'street')
+                setErrors((prevErrors) => ({
+                  ...prevErrors,
+                  street: '',
+                }))
+              }}
+              zipHandler={(e) => {
+                handleChange(e, 'zipCode')
+                setErrors((prevErrors) => ({
+                  ...prevErrors,
+                  zipCode: '',
+                }))
+              }}
+              stateError={errors.state}
+              cityError={errors.city}
+              streetError={errors.street}
+              zipError={errors.zipCode}
               cityValue={formData.city}
               streetValue={formData.street}
               zipValue={formData.zipCode}

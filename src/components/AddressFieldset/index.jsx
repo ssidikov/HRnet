@@ -9,8 +9,10 @@ const AddressFieldset = ({
   cityHandler,
   streetHandler,
   zipHandler,
-  formAttemptedSubmit,
   stateError,
+  cityError,
+  streetError,
+  zipError,
   cityValue,
   streetValue,
   zipValue,
@@ -25,7 +27,7 @@ const AddressFieldset = ({
       value={streetValue}
       onChange={streetHandler}
       className='address__input'
-      errorMessage={formAttemptedSubmit && !streetValue ? 'Please enter a street' : ''}
+      errorMessage={streetError} // Error message for the street
     />
     <FormInput
       label='City'
@@ -34,7 +36,7 @@ const AddressFieldset = ({
       value={cityValue}
       onChange={cityHandler}
       className='address__input'
-      errorMessage={formAttemptedSubmit && !cityValue ? 'Please enter a city' : ''}
+      errorMessage={cityError} // Error message for the city
     />
     <SelectInput
       label='State'
@@ -43,7 +45,7 @@ const AddressFieldset = ({
       id='state-required'
       value={stateValue ? { label: stateValue, value: stateValue } : null}
       onChange={stateHandler}
-      errorMessage={stateError}
+      errorMessage={stateError} // Error message for the state
       className='address__select'
     />
     <FormInput
@@ -53,7 +55,7 @@ const AddressFieldset = ({
       value={zipValue}
       onChange={zipHandler}
       className='address__input'
-      errorMessage={formAttemptedSubmit && !zipValue ? 'Please enter a zip code' : ''}
+      errorMessage={zipError} // Сообщение об ошибке для индекса
     />
   </fieldset>
 )
@@ -69,12 +71,14 @@ AddressFieldset.propTypes = {
   cityHandler: PropTypes.func.isRequired,
   streetHandler: PropTypes.func.isRequired,
   zipHandler: PropTypes.func.isRequired,
-  formAttemptedSubmit: PropTypes.bool.isRequired,
   stateError: PropTypes.string,
   cityValue: PropTypes.string.isRequired,
   streetValue: PropTypes.string.isRequired,
   zipValue: PropTypes.string.isRequired,
   stateValue: PropTypes.string,
+  cityError: PropTypes.string,
+  streetError: PropTypes.string,
+  zipError: PropTypes.string,
 }
 
 export default AddressFieldset
