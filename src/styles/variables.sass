@@ -11,8 +11,6 @@ $transition: 0.3s ease
 
 // Breakpoints
 $phone: 600px
-$tablet: 900px
-$desktop: 1440px
 
 // Mixins
 @mixin transition($property, $duration, $easing: ease)
@@ -30,12 +28,4 @@ $desktop: 1440px
 // Media Queries
 @mixin phone-version
   @media (max-width: $phone)
-    @content
-
-@mixin tablet-version
-  @media (max-width: $tablet)
-    @content
-
-@mixin desktop-version
-  @media (max-width: $desktop)
     @content
