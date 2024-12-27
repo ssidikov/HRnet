@@ -7,9 +7,17 @@ const loadEmployeesFromLocalStorage = () => {
 }
 
 // Thunk to download employees from API
-export const loadEmployeesFromApi = createAsyncThunk(
-  'employees/loadFromApi',
+export const loadEmployees = createAsyncThunk(
+  'employees/loadEmployees',
   async (_, { rejectWithValue }) => {
+    const localStorageEmployees = loadEmployeesFromLocalStorage()
+
+    // If there are already employees in Localstorage, we return them
+    if (localStorageEmployees.length > 0) {
+      return localStorageEmployees
+    }
+
+    // if not, load them from the API
     try {
       const response = await fetch(
         'https://raw.githubusercontent.com/ssidikov/HRnet/refs/heads/main/src/data/employees.json'
@@ -27,7 +35,7 @@ export const loadEmployeesFromApi = createAsyncThunk(
 
 // initial state
 const initialState = {
-  employees: loadEmployeesFromLocalStorage(),
+  employees: [],
   loading: false,
   error: null,
 }
@@ -46,15 +54,15 @@ const employeesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadEmployeesFromApi.pending, (state) => {
+      .addCase(loadEmployees.pending, (state) => {
         state.loading = true
         state.error = null
       })
-      .addCase(loadEmployeesFromApi.fulfilled, (state, action) => {
+      .addCase(loadEmployees.fulfilled, (state, action) => {
         state.loading = false
         state.employees = action.payload
       })
-      .addCase(loadEmployeesFromApi.rejected, (state, action) => {
+      .addCase(loadEmployees.rejected, (state, action) => {
         state.loading = false
         state.error = action.payload
       })

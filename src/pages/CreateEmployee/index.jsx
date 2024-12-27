@@ -100,8 +100,8 @@ const CreateEmployee = () => {
   const saveEmployee = () => {
     const employee = {
       ...formData,
-      birthdate: formData.birthdate ? formData.birthdate.toISOString() : null,
-      startdate: formData.startdate ? formData.startdate.toISOString() : null,
+      birthdate: formData.birthdate ? formData.birthdate.toISOString().split('T')[0] : null,
+      startdate: formData.startdate ? formData.startdate.toISOString().split('T')[0] : null,
     }
     dispatch(addEmployee(employee))
   }

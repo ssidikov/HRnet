@@ -3,7 +3,7 @@ import Header from '../../components/Header'
 import Table from '../../components/Table'
 import { dataColumns } from '../../data/dataGridColumns'
 import { useEffect } from 'react'
-import { loadEmployeesFromApi } from '../../redux/slices/employees-slice'
+import { loadEmployees } from '../../redux/slices/employees-slice'
 import { selectFormattedEmployees } from '../../redux/selectors'
 import './EmployeeList.sass'
 
@@ -13,18 +13,18 @@ const EmployeeList = () => {
 
   const dispatch = useDispatch()
 
-  // Используем селектор для получения отформатированных данных сотрудников
+  // Use a selector to obtain formatted data from employees
   const employees = useSelector(selectFormattedEmployees)
   const { loading, error } = useSelector((state) => state.employees)
 
-  // Загрузка данных из API, если они еще не загружены
+  // get data from a localstorage or API
   useEffect(() => {
     if (employees.length === 0) {
-      dispatch(loadEmployeesFromApi())
+      dispatch(loadEmployees())
     }
   }, [dispatch, employees.length])
 
-  // Условное отображение для состояний загрузки и ошибки
+  // Conditional display for loading and error states
   if (loading) {
     return <div className='loading'>Loading...</div>
   }
