@@ -9,6 +9,7 @@ import DateInput from '../../components/DateInput'
 import SelectInput from '../../components/SelectInput'
 import AddressFieldset from '../../components/AddressFieldset'
 import SuccessModal from 'react-success-modal'
+import { v4 as uuidv4 } from 'uuid'
 import './CreateEmployee.sass'
 
 const CreateEmployee = () => {
@@ -99,6 +100,7 @@ const CreateEmployee = () => {
 
   const saveEmployee = () => {
     const employee = {
+      id: uuidv4(), // Generation of a unique ID for an employee
       ...formData,
       birthdate: formData.birthdate ? formData.birthdate.toISOString().split('T')[0] : null,
       startdate: formData.startdate ? formData.startdate.toISOString().split('T')[0] : null,
