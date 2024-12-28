@@ -11,11 +11,13 @@ import AddressFieldset from '../../components/AddressFieldset'
 import SuccessModal from 'react-success-modal'
 import { v4 as uuidv4 } from 'uuid'
 import './CreateEmployee.sass'
+import { useSelector } from 'react-redux'
 
 const CreateEmployee = () => {
   document.title = 'HRnet'
 
   const dispatch = useDispatch()
+  const employees = useSelector((state) => state.employees.employees)
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -35,9 +37,12 @@ const CreateEmployee = () => {
   const STATES = statesList.map((s) => ({ value: s.abbreviation, label: s.name }))
   const DEPARTMENTS = departments.map((d) => ({ value: d.name, label: d.name }))
 
+  // get data
   useEffect(() => {
-    dispatch(loadEmployees()) // Loading existing employees
-  }, [dispatch])
+    if (employees.length === 0) {
+      dispatch(loadEmployees())
+    }
+  }, [dispatch, employees.length])
 
   // Handle form input changes and update the form data
   const handleChange = (e, field) => {
