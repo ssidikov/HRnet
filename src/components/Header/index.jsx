@@ -5,7 +5,7 @@ import './Header.sass'
 function Header({ className, title, link, headerNavText }) {
   return (
     <header className={`header ${className || ''}`}>
-      <h1 className='header__title'>{title}</h1>
+      <h1>{title}</h1>
       <Link className='header__link' to={`${link}`}>
         {headerNavText}
       </Link>

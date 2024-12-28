@@ -55,7 +55,7 @@ const AddressFieldset = ({
       value={zipValue}
       onChange={zipHandler}
       className='address__input'
-      errorMessage={zipError} // Сообщение об ошибке для индекса
+      errorMessage={zipError} // Error message for the zip code
     />
   </fieldset>
 )

@@ -1,3 +1,5 @@
+// Middleware to save employees data to local storage
+
 const localStorageMiddleware = (store) => (next) => (action) => {
   const result = next(action)
   const actionTypes = ['employees/addEmployee', 'employees/setEmployees']

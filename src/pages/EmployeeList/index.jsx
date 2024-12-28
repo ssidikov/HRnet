@@ -17,7 +17,7 @@ const EmployeeList = () => {
   const employees = useSelector(selectFormattedEmployees)
   const { loading, error } = useSelector((state) => state.employees)
 
-  // get data from a localstorage or API
+  // get data
   useEffect(() => {
     if (employees.length === 0) {
       dispatch(loadEmployees())

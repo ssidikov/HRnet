@@ -35,6 +35,7 @@ const CreateEmployee = () => {
   const STATES = statesList.map((s) => ({ value: s.abbreviation, label: s.name }))
   const DEPARTMENTS = departments.map((d) => ({ value: d.name, label: d.name }))
 
+  // Handle form input changes and update the form data
   const handleChange = (e, field) => {
     setFormData({
       ...formData,
@@ -43,11 +44,12 @@ const CreateEmployee = () => {
 
     // Remove the error for the current field
     setErrors((prevErrors) => ({
-      ...prevErrors,
-      [field]: '',
+      ...prevErrors, // Keep the previous errors
+      [field]: '', // Remove the error for the current field
     }))
   }
 
+  // Handle select input changes and update the form data
   const handleSelectChange = (selectedOption, field) => {
     setFormData({
       ...formData,
@@ -78,7 +80,7 @@ const CreateEmployee = () => {
       resetForm()
     }
   }
-
+  // Reset the form data
   const resetForm = () => {
     setFormData({
       firstName: '',
@@ -97,7 +99,8 @@ const CreateEmployee = () => {
   const closeModal = () => {
     setIsModalVisible(false)
   }
-
+  
+  // Save the employee data to the store
   const saveEmployee = () => {
     const employee = {
       id: uuidv4(), // Generation of a unique ID for an employee
