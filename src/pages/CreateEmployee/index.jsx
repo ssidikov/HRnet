@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { addEmployee } from '../../redux/slices/employees-slice'
+import { addEmployee, loadEmployees } from '../../redux/slices/employees-slice'
 import { statesList } from '../../data/usStates'
 import { departments } from '../../data/companyDepartments'
 import Header from '../../components/Header'
@@ -34,6 +34,10 @@ const CreateEmployee = () => {
 
   const STATES = statesList.map((s) => ({ value: s.abbreviation, label: s.name }))
   const DEPARTMENTS = departments.map((d) => ({ value: d.name, label: d.name }))
+
+  useEffect(() => {
+    dispatch(loadEmployees()) // Loading existing employees
+  }, [dispatch])
 
   // Handle form input changes and update the form data
   const handleChange = (e, field) => {
@@ -80,7 +84,8 @@ const CreateEmployee = () => {
       resetForm()
     }
   }
-  // Reset the form data
+
+  // Reset the form data and errors
   const resetForm = () => {
     setFormData({
       firstName: '',
@@ -99,7 +104,7 @@ const CreateEmployee = () => {
   const closeModal = () => {
     setIsModalVisible(false)
   }
-  
+
   // Save the employee data to the store
   const saveEmployee = () => {
     const employee = {
