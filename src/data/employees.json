@@ -22,17 +22,5 @@
     "state": "CA",
     "zipCode": "90001",
     "department": "Marketing"
-  },
-  {
-    "id": 3,
-    "firstName": "Michael",
-    "lastName": "Johnson",
-    "birthdate": "1982-09-10",
-    "startdate": "2010-07-20",
-    "street": "789 Pine Rd",
-    "city": "Chicago",
-    "state": "IL",
-    "zipCode": "60601",
-    "department": "Sales"
   }
 ]
